@@ -1,10 +1,10 @@
-# Ansible Role: Containerized TACACS+ Server
+# Ansible Role: Containerized TACACS+ Instance
 
-Installs TACACS+ (lfkeitel/tacacs_plus) inside a Docker container. Only usable with Docker Compose version 3.
+Installs and configures TACACS+ (lfkeitel/tacacs_plus) inside a Docker container. Only usable with Docker Compose version 3.
 
 ## Role Variables
 
-See `defaults/main.yml`.
+See `defaults/main.yml`
 
 
 ## Add to Requirements
