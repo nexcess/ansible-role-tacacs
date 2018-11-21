@@ -1,0 +1,73 @@
+---
+
+- name: Setup compose dir structure
+  file:
+    path: "{{ compose_project_dir }}/{{ item }}"
+    state: directory
+    owner: "{{ system_user }}"
+    group: "{{ system_user }}"
+    recurse: yes
+    mode: 0755
+  with_items:
+    - tac_plus
+  tags:
+    - directories
+
+- name: Create docker-compose.yml file
+  file:
+    path: "{{ compose_project_dir }}/docker-compose.yml"
+    owner: "{{ system_user }}"
+    group: "{{ system_user }}"
+    state: touch
+  tags:
+    - files
+
+- name: Deploy Docker Compose project for (tac_plus containers)
+  template:
+    src: docker-compose.j2
+    dest: "{{ compose_project_dir }}/docker-compose.yml"
+    owner: "{{ system_user }}"
+    group: "{{ system_user }}"
+    mode: 0644
+  tags:
+    - deploy_compose
+
+- name: Create tac_plus.cfg file
+  file:
+    path: "{{ tac_plus_config_dir }}/tac_plus.cfg"
+    owner: "{{ system_user }}"
+    group: "{{ system_user }}"
+    state: touch
+  tags:
+    - files
+
+- name: Configure tac_plus.cfg
+  template:
+    src: tacplus.j2
+    dest: "{{ tac_plus_config_dir }}/tac_plus.cfg"
+    owner: "{{ system_user }}"
+    group: "{{ system_user }}"
+    mode: 0644
+  tags:
+    - files
+
+- name: Setup TACACS log directories
+  file:
+    path: "{{ tac_plus_log_dir }}"
+    state: directory
+    owner: "{{ system_user }}"
+    group: "{{ system_user }}"
+    mode: 0755
+  tags:
+    - directories
+
+- name: Run docker-compose up
+  command: docker-compose -f docker-compose.yml up -d
+  args:
+    chdir: "{{ compose_project_dir }}"
+  tags:
+    - compose_run
+
+- name: Giving some time for project to start-up
+  pause:
+    seconds: 10

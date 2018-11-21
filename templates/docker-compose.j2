@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  tacacs:
+    image: lfkeitel/tacacs_plus:latest
+    ports:
+      - '49:49'
+    volumes:
+      - {{ tac_plus_config_dir }}:/etc/tac_plus
+      - {{ tac_plus_log_dir }}:/var/log/tac_plus
+    restart: always
