@@ -11,15 +11,12 @@ See `defaults/main.yml`
 
     - src: https://github.com/nexcess/ansible-role-tacacs.git
       name: nexcess.tacacs
-    - src: https://github.com/geerlingguy/ansible-role-docker.git
-      name: geerlingguy.docker
 
 ## Example Playbook
 
     - hosts: tacacs_hosts
       roles:
         - nexcess.tacacs
-        - geerlingguy.docker
 
 ## License
 
