@@ -1,0 +1,21 @@
+---
+# defaults file for tacacs-docker
+system_user: root
+compose_project_dir: /opt/docker/tacplus
+tac_plus_log_dir: /var/log/tac_plus
+tac_plus_config_dir: /opt/docker/tacplus/tac_plus.cfg
+
+## default values for tac_plus.cfg if none are specified in playbooks. This will at least get the container to start-up
+tacacs:
+  key: 'asdlaksdlkasldk'
+  groups:
+    admins:
+      default_service: permit
+      enable: permit
+      service: shell
+      lvl: 15
+  users:
+    admin:
+      group: admins
+      pass_type: crypt
+      password: 'kldsaklasjdklajsd!'

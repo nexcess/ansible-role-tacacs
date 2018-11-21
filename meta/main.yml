@@ -1,0 +1,12 @@
+---
+galaxy_info:
+  author: "Andrew Steen"
+  description: "Containerized tac_plus deploy"
+  company: "Nexcess.net LLC"
+  license: "MIT"
+  min_ansible_version: "2.0"
+  platform:
+    - name: "EL"
+      versions:
+        - "7"
+dependencies: []
