@@ -1,0 +1,38 @@
+id = spawnd {
+    listen = { port = 49 }
+    spawn = {
+        instances min = 1
+        instances max = 10
+    }
+    background = no
+}
+
+id = tac_plus {
+
+    time zone = "EST5EDT,M3.2.0,M11.1.0"
+    authorization log group = yes
+    authentication log = {{ tac_plus_log_dir }}/%Y/%m/%d.authentication
+    authorization log = {{ tac_plus_log_dir }}/%Y/%m/%d.authorization
+    accounting log = {{ tac_plus_log_dir }}/%Y/%m/%d.accounting
+
+    host = world {
+        address = 0.0.0.0/0
+        key = {{ tacacs.key }}
+    }
+
+{% for groups, int in tacacs.groups.items() %}
+    group = {{ groups }} {
+        default service = {{ int.default_service }}
+        enable = {{ int.enable }}
+        service = {{ int.service }} {
+            set priv-lvl = {{ int.lvl }}
+        }
+    }
+{% endfor %}
+{% for users, int in tacacs.users.items() %}
+    user = {{ users }} {
+        password = {{ int.pass_type }} "{{ int.password }}"
+        member = {{ int.group }}
+    }
+{% endfor %}
+}
